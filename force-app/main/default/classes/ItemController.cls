@@ -31,4 +31,29 @@ public with sharing class ItemController{
 		return Database.query(query);
 	}
 
+	@AuraEnabled(cacheable=true)
+	public static List<String> getFamilyOptions(){
+		List<String> options = new List<String>();
+
+		Schema.DescribeFieldResult fieldResult = Item__c.Family__c.getDescribe();
+
+		List<Schema.PicklistEntry> picklistEntries = fieldResult.getPicklistValues();
+
+		for(Schema.PicklistEntry entry : picklistEntries){
+			options.add(entry.getLabel());
+		}
+
+		return options;
+	}
+
+	@AuraEnabled(chacheable=true)
+	public static List<String> getTypeOptions(){
+		List<String> options = new List<String>();
+		Schema.DescribeFieldResult fieldResult = Item__c.Type__c.getDescribe();
+		List<Schema.PicklistEntry> picklistEntries = fieldResult.getPicklistValues();
+		for(Schema.PicklistEntry entry : picklistEntries){
+			options.add(entry.getLabel());
+		}
+		return options;
+	}
 }
